@@ -1,0 +1,5 @@
+/.vs
+/cpp/.vs
+/cpp.DotSettings.user
+/cpp/CMakeSettings.json
+/cpp/gtest.DotSettings.user
