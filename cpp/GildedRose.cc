@@ -53,12 +53,12 @@ class NormalItem :public UpdatableItem
 public:
 	NormalItem (Item& item) : UpdatableItem{ item } {}
 
-	const int NormalQualityAdjustment () const
+	virtual const int NormalQualityAdjustment () const
 	{
 		return GildedRose::NORMAL_QUALITY_ADJUSTMENT;
 	}
 
-	const int PassDateQualityAdjustment () const
+	virtual const int PassDateQualityAdjustment () const
 	{
 		return GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 	}
