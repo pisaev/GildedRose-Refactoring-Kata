@@ -48,21 +48,61 @@ public:
 	auto update() const -> void override {}
 };
 
+class NormalItem :public UpdatableItem
+{
+public:
+	NormalItem (Item& item) : UpdatableItem{ item } {}
+
+	const int NormalQualityAdjustment () const
+	{
+		return GildedRose::NORMAL_QUALITY_ADJUSTMENT;
+	}
+
+	const int PassDateQualityAdjustment () const
+	{
+		return GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
+	}
+
+	void updateQuality () const
+	{
+		int qualityAdjustment = NormalQualityAdjustment ();
+
+		if (item_.sellIn < 0)
+		{
+			qualityAdjustment = PassDateQualityAdjustment ();
+		}
+		AdjustQuality (qualityAdjustment);
+	}
+
+	auto update () const -> void override
+	{
+		Age ();
+		updateQuality ();
+	}
+};
+
 class AgedBrie :public UpdatableItem
 {
 public:
 	explicit AgedBrie(Item& item): UpdatableItem{item}{}
 
+	const int NormalQualityAdjustment() const
+	{
+		return GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
+	}
+
+	const int PassDateQualityAdjustment() const
+	{
+		return GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
+	}
+
 	void updateQuality() const
 	{
-		int qualityAdjustment = GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
+		int qualityAdjustment = NormalQualityAdjustment();
 
 		if (item_.sellIn < 0)
 		{
-			if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
-			{
-				qualityAdjustment = GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
-			}
+			qualityAdjustment = PassDateQualityAdjustment();
 		}
 		AdjustQuality(qualityAdjustment);
 	}
@@ -79,27 +119,34 @@ class BackstagePasses :public UpdatableItem
 public:
 	explicit BackstagePasses(Item& item): UpdatableItem{item}{}
 
+	int NormalQualityAdjustment () const
+	{
+		int qualityAdjustment = 1;
+
+		if (item_.sellIn < 10)
+		{
+			qualityAdjustment = 2;
+		}
+
+		if (item_.sellIn < 5)
+		{
+			qualityAdjustment = 3;
+		}
+		return qualityAdjustment;
+	}
+
+	int PassDateQualityAdjustment() const
+	{
+		return -item_.quality;
+	}
+
 	void updateQuality() const
 	{
-		int qualityAdjustment = [&]()
-		{
-			int qualityAdjustment = 1;
-
-			if (item_.sellIn < 10)
-			{
-				qualityAdjustment = 2;
-			}
-
-			if (item_.sellIn < 5)
-			{
-				qualityAdjustment = 3;
-			}
-			return qualityAdjustment;
-		}();
+		int qualityAdjustment = NormalQualityAdjustment();
 
 		if (item_.sellIn < 0)
 		{
-			qualityAdjustment = -item_.quality;
+			qualityAdjustment = PassDateQualityAdjustment();
 		}
 
 		AdjustQuality (qualityAdjustment);
@@ -113,28 +160,6 @@ public:
 	}
 };
 
-class NormalItem :public UpdatableItem
-{
-public:
-	NormalItem(Item& item): UpdatableItem{item}{}
-
-	void updateQuality() const
-	{
-		int qualityAdjustment = GildedRose::NORMAL_QUALITY_ADJUSTMENT;
-		
-		if (item_.sellIn < 0)
-		{
-			qualityAdjustment = GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
-		}
-		AdjustQuality (qualityAdjustment);
-	}
-
-	auto update () const -> void override
-	{
-		Age ();
-		updateQuality();
-	}
-};
 
 unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
 {
