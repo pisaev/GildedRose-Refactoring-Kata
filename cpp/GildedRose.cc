@@ -93,7 +93,7 @@ public:
 		}
 		if (item_.sellIn < 0)
 		{
-			item_.quality -= item_.quality;
+			AdjustQuality (-item_.quality);
 		}
 
 	}
@@ -109,14 +109,11 @@ public:
 		Age ();
 		if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
 		{
-			item_.quality -= 1;
+			AdjustQuality (-1);
 		}
 		if (item_.sellIn < 0)
 		{
-			if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
-			{
-				item_.quality -= 1;
-			}
+			AdjustQuality (-1);
 		}
 	}
 };
