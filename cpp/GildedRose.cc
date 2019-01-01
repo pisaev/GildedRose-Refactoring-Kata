@@ -49,11 +49,16 @@ protected:
 	{
 		int qualityAdjustment = NormalQualityAdjustment ();
 
-		if (item_.sellIn < 0)
+		if (isSaleDatePasses())
 		{
 			qualityAdjustment = PassDateQualityAdjustment ();
 		}
 		AdjustQuality (qualityAdjustment);
+	}
+
+	bool isSaleDatePasses () const
+	{
+		return item_.sellIn < 0;
 	}
 
 	void Age () const
