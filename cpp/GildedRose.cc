@@ -20,14 +20,12 @@ class UpdatableItem
 {
 public:
 	explicit UpdatableItem() {}
-	virtual auto update () const -> void = 0;
+	virtual auto update () const -> void {};
 	virtual ~UpdatableItem() = default;
 };
 
 class Surfuras:public UpdatableItem
 {
-public:
-	auto update() const -> void override {}
 };
 
 class NormalItem :public UpdatableItem
