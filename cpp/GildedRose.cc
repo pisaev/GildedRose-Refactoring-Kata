@@ -15,79 +15,100 @@ const int GildedRose::QUALITY_UPPER_BOUND = 50;
 
 GildedRose::GildedRose(vector<Item>& items) : items(items){}
 
-bool GildedRose::isSaleDatePassed(Item& item) const
-{
-	return item.sellIn < 0;
-}
-
-void GildedRose::update_Aged_Brie(Item& item) const
-{
-	item.sellIn -= 1;
-	if (item.quality < QUALITY_UPPER_BOUND)
-	{
-		item.quality += 1;
-	}
-
-	if (isSaleDatePassed (item))
-	{
-		if (item.quality < QUALITY_UPPER_BOUND)
-		{
-			item.quality += 1;
-		}
-	}
-}
-
-void GildedRose::update_Backstage(Item& item) const
-{
-	item.sellIn -= 1;
-	if (item.quality < QUALITY_UPPER_BOUND)
-	{
-		item.quality += 1;
-
-		if (item.sellIn < 10)
-		{
-			if (item.quality < QUALITY_UPPER_BOUND)
-			{
-				item.quality += 1;
-			}
-		}
-
-		if (item.sellIn < 5)
-		{
-			if (item.quality < QUALITY_UPPER_BOUND)
-			{
-				item.quality += 1;
-			}
-		}
-	}
-	if (isSaleDatePassed (item))
-	{
-		item.quality -= item.quality;
-	}
-}
-
-void GildedRose::update_Normal(Item& item) const
-{
-	item.sellIn -= 1;
-	if (item.quality > QUALITY_LOWER_BOUND)
-	{
-		item.quality -= 1;
-	}
-	if (isSaleDatePassed (item))
-	{
-		if (item.quality > QUALITY_LOWER_BOUND)
-		{
-			item.quality -= 1;
-		}
-	}
-}
-
-
 class Surfuras
 {
 public:
-	Surfuras(const Item& item) {};
-	auto update() -> void{	}
+	explicit Surfuras(const Item& item) {};
+	auto update() const -> void{	}
+};
+
+class AgedBrie
+{
+public:
+	explicit AgedBrie(Item& item): item_{item} {
+	}
+
+	auto update() const -> void
+	{
+		item_.sellIn -= 1;
+		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
+		{
+			item_.quality += 1;
+		}
+
+		if (item_.sellIn < 0)
+		{
+			if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
+			{
+				item_.quality += 1;
+			}
+		}
+	}
+
+	Item& item_;
+};
+
+class BackstagePasses
+{
+public:
+	explicit BackstagePasses(Item& item): item_{item} {}
+
+	auto update() const -> void
+	{
+		item_.sellIn -= 1;
+		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
+		{
+			item_.quality += 1;
+
+			if (item_.sellIn < 10)
+			{
+				if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
+				{
+					item_.quality += 1;
+				}
+			}
+
+			if (item_.sellIn < 5)
+			{
+				if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
+				{
+					item_.quality += 1;
+				}
+			}
+		}
+		if (item_.sellIn < 0)
+		{
+			item_.quality -= item_.quality;
+		}
+
+	}
+
+	Item& item_;
+};
+
+class NormalItem
+{
+public:
+	NormalItem(Item& item): item_{item} {}
+
+	auto update () const -> void
+	{
+		item_.sellIn -= 1;
+		if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
+		{
+			item_.quality -= 1;
+		}
+		if (item_.sellIn < 0)
+		{
+			if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
+			{
+				item_.quality -= 1;
+			}
+		}
+	}
+
+private:
+	Item& item_;
 };
 
 void GildedRose::updateItemQuality (Item& item) const
@@ -99,15 +120,18 @@ void GildedRose::updateItemQuality (Item& item) const
 	}
 	else if (item.name == AGED_BRIE_NAME)
 	{
-		update_Aged_Brie(item);
+		AgedBrie aged_brie (item);
+		aged_brie.update();
 	}
 	else if (item.name == BACKSTAGE_NAME)
 	{
-		update_Backstage(item);
+		BackstagePasses backstage_passes (item);
+		backstage_passes.update();
 	}
 	else
 	{
-		update_Normal(item);
+		NormalItem normal_item (item);
+		normal_item .update();
 	}
 }
 

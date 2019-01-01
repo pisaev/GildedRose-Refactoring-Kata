@@ -33,11 +33,6 @@ public:
 	static const int QUALITY_LOWER_BOUND;
 	static const int QUALITY_UPPER_BOUND;
 private:
-	bool isSaleDatePassed (Item& item) const;
-	void update_Aged_Brie(Item& item) const;
-	void update_Backstage(Item& item) const;
-	void update_Normal(Item& item) const;
-	void update_Surfuras(Item& item) const;
 	void updateItemQuality (Item& item) const;
 };
 
