@@ -45,11 +45,14 @@ protected:
 		return GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 	}
 
+	Item& item_;
+
+private:
 	void updateQuality () const
 	{
 		int qualityAdjustment = NormalQualityAdjustment ();
 
-		if (isSaleDatePasses())
+		if (isSaleDatePasses ())
 		{
 			qualityAdjustment = PassDateQualityAdjustment ();
 		}
@@ -74,7 +77,6 @@ protected:
 		if (item_.quality < GildedRose::QUALITY_LOWER_BOUND) item_.quality = GildedRose::QUALITY_LOWER_BOUND;
 	}
 
-	Item& item_;
 };
 
 class AgedBrie :public NormalItem
