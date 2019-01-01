@@ -20,14 +20,6 @@ bool operator==(const Item& lhs, const Item rhs)
 
 struct GildedRoseTest : testing::Test
 {
-	const int TWICE_AS_FAST = 2;
-	const int NORMAL_QUALITY_ADJUSTMENT = -1;
-	const int PASS_SALE_DATE_QUALITY_ADJUSTMENT = TWICE_AS_FAST * NORMAL_QUALITY_ADJUSTMENT;
-	const int AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT = -NORMAL_QUALITY_ADJUSTMENT;
-	const int AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT = TWICE_AS_FAST * AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
-	const int QUALITY_LOWER_BOUND = 0;
-	const int QUALITY_UPPER_BOUND = 50;
-
 	const string REGULAR_ITEM1_NAME = "Foo";
 	const string REGULAR_ITEM2_NAME = "Boo";
 
@@ -81,9 +73,9 @@ TEST_F (GildedRoseTest, each_day_our_system_lowers_SellIn_and_Quality_for_every_
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (NORMAL_QUALITY_ADJUSTMENT, find_item_by (REGULAR_ITEM1_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (GildedRose::NORMAL_QUALITY_ADJUSTMENT, find_item_by (REGULAR_ITEM1_NAME).quality - SOME_QUALITY);
 	EXPECT_EQ (SOME_SELL_IN - 1, find_item_by (REGULAR_ITEM1_NAME).sellIn);
-	EXPECT_EQ (NORMAL_QUALITY_ADJUSTMENT, find_item_by (REGULAR_ITEM2_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (GildedRose::NORMAL_QUALITY_ADJUSTMENT, find_item_by (REGULAR_ITEM2_NAME).quality - SOME_QUALITY);
 	EXPECT_EQ (SOME_SELL_IN - 1, find_item_by (REGULAR_ITEM2_NAME).sellIn);
 }
 
@@ -97,7 +89,7 @@ TEST_F (GildedRoseTest, once_the_sell_by_date_has_passed,_quality_degrades_twice
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (REGULAR_ITEM1_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (REGULAR_ITEM1_NAME).quality - SOME_QUALITY);
 	EXPECT_EQ (SELL_IN_DATE_PASSED, find_item_by (REGULAR_ITEM1_NAME).sellIn);
 }
 
@@ -105,11 +97,11 @@ TEST_F (GildedRoseTest, the_quality_of_an_item_is_never_negative)
 {
 	const int SOME_SELL_IN = 7;
 
-	givenItemWithNameSellInAndQuality ({ REGULAR_ITEM1_NAME,SOME_SELL_IN,QUALITY_LOWER_BOUND });
+	givenItemWithNameSellInAndQuality ({ REGULAR_ITEM1_NAME,SOME_SELL_IN,GildedRose::QUALITY_LOWER_BOUND });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (QUALITY_LOWER_BOUND, find_item_by (REGULAR_ITEM1_NAME).quality);
+	EXPECT_EQ (GildedRose::QUALITY_LOWER_BOUND, find_item_by (REGULAR_ITEM1_NAME).quality);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_actually_increases_in_Quality_the_older_it_gets)
@@ -120,7 +112,7 @@ TEST_F (GildedRoseTest, Aged_Brie_actually_increases_in_Quality_the_older_it_get
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_increases_in_Quality_once_the_sell_by_date_has_passed_twice_as_fast)
@@ -131,27 +123,27 @@ TEST_F (GildedRoseTest, Aged_Brie_increases_in_Quality_once_the_sell_by_date_has
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_the_quality_of_an_item_is_never_more_than_50)
 {
 	const int SOME_SELL_IN = 7;
-	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SOME_SELL_IN, QUALITY_UPPER_BOUND });
+	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SOME_SELL_IN, GildedRose::QUALITY_UPPER_BOUND });
 	
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (QUALITY_UPPER_BOUND, find_item_by (GildedRose::AGED_BRIE_NAME).quality);
+	EXPECT_EQ (GildedRose::QUALITY_UPPER_BOUND, find_item_by (GildedRose::AGED_BRIE_NAME).quality);
 }
 
 TEST_F (GildedRoseTest, the_quality_of_an_item_is_never_more_than_50_after_sale_date_passed_as_well)
 {
 	const int SELL_IN_BEFORE_PASSING = 0;
-	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SELL_IN_BEFORE_PASSING, QUALITY_UPPER_BOUND });
+	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SELL_IN_BEFORE_PASSING, GildedRose::QUALITY_UPPER_BOUND });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (QUALITY_UPPER_BOUND, find_item_by (GildedRose::AGED_BRIE_NAME).quality);
+	EXPECT_EQ (GildedRose::QUALITY_UPPER_BOUND, find_item_by (GildedRose::AGED_BRIE_NAME).quality);
 }
 
 TEST_F (GildedRoseTest, Sulfuras_being_a_legendary_item,_never_has_to_be_sold_or_decreases_in_Quality)
@@ -168,7 +160,7 @@ TEST_F (GildedRoseTest, Sulfuras_being_a_legendary_item,_never_has_to_be_sold_or
 
 TEST_F (GildedRoseTest, Sulfuras_Quality_not_limited_by_upper_bound)
 {
-	const int SOME_LARGE_QUALITY = QUALITY_UPPER_BOUND + 30;
+	const int SOME_LARGE_QUALITY = GildedRose::QUALITY_UPPER_BOUND + 30;
 	const int SOME_SELL_IN = 15;
 	givenItemWithNameSellInAndQuality ({ GildedRose::SULFURAS_NAME,SOME_SELL_IN, SOME_LARGE_QUALITY });
 
