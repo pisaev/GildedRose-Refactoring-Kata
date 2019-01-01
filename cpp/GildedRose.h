@@ -29,8 +29,6 @@ public:
 	static const int TWICE_AS_FAST;
 	static const int NORMAL_QUALITY_ADJUSTMENT;
 	static const int PASS_SALE_DATE_QUALITY_ADJUSTMENT;
-	static const int AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
-	static const int AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 	static const int QUALITY_LOWER_BOUND;
 	static const int QUALITY_UPPER_BOUND;
 };

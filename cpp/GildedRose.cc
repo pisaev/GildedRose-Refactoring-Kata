@@ -8,8 +8,6 @@ const string GildedRose::BACKSTAGE_NAME = "Backstage passes to a TAFKAL80ETC con
 const int GildedRose::TWICE_AS_FAST = 2;
 const int GildedRose::NORMAL_QUALITY_ADJUSTMENT = -1;
 const int GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT = TWICE_AS_FAST * NORMAL_QUALITY_ADJUSTMENT;
-const int GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT = -NORMAL_QUALITY_ADJUSTMENT;
-const int GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT = TWICE_AS_FAST * AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
 const int GildedRose::QUALITY_LOWER_BOUND = 0;
 const int GildedRose::QUALITY_UPPER_BOUND = 50;
 
@@ -42,7 +40,7 @@ protected:
 
 	virtual int PassDateQualityAdjustment () const
 	{
-		return GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
+		return GildedRose::TWICE_AS_FAST* NormalQualityAdjustment ();
 	}
 
 	Item& item_;
@@ -77,8 +75,9 @@ private:
 		if (item_.quality > GildedRose::QUALITY_UPPER_BOUND) item_.quality = GildedRose::QUALITY_UPPER_BOUND;
 		if (item_.quality < GildedRose::QUALITY_LOWER_BOUND) item_.quality = GildedRose::QUALITY_LOWER_BOUND;
 	}
-
 };
+
+
 
 class AgedBrie :public NormalItem
 {
@@ -87,12 +86,7 @@ public:
 protected:
 	int NormalQualityAdjustment() const override
 	{
-		return GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
-	}
-
-	int PassDateQualityAdjustment() const override
-	{
-		return GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
+		return -NormalItem::NormalQualityAdjustment();
 	}
 };
 

@@ -22,6 +22,8 @@ struct GildedRoseTest : testing::Test
 {
 	const string REGULAR_ITEM1_NAME = "Foo";
 	const string REGULAR_ITEM2_NAME = "Boo";
+	const int AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT = -GildedRose::NORMAL_QUALITY_ADJUSTMENT;
+	const int AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT = GildedRose::TWICE_AS_FAST * AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
 
 	auto matchItemByName(string name_to_look) const {
 		return[name_to_look = move (name_to_look)] (auto& item) {
@@ -112,7 +114,7 @@ TEST_F (GildedRoseTest, Aged_Brie_actually_increases_in_Quality_the_older_it_get
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_increases_in_Quality_once_the_sell_by_date_has_passed_twice_as_fast)
@@ -123,7 +125,7 @@ TEST_F (GildedRoseTest, Aged_Brie_increases_in_Quality_once_the_sell_by_date_has
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_the_quality_of_an_item_is_never_more_than_50)
