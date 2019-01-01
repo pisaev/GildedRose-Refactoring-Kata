@@ -120,28 +120,28 @@ public:
 	}
 };
 
+unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
+{
+	if (item.name == GildedRose::SULFURAS_NAME)
+	{
+		return make_unique<Surfuras > (item);
+	}
+	if (item.name == GildedRose::AGED_BRIE_NAME)
+	{
+		return make_unique<AgedBrie> (item);
+	}
+	if (item.name == GildedRose::BACKSTAGE_NAME)
+	{
+		return make_unique<BackstagePasses> (item);
+	}
+	return make_unique<NormalItem> (item);
+}
+
+
 void GildedRose::updateItemQuality (Item& item) const
 {
-	if (item.name == SULFURAS_NAME)
-	{
-		const unique_ptr<UpdatableItem> surfuras = make_unique<Surfuras >(item);
-		surfuras->update();
-	}
-	else if (item.name == AGED_BRIE_NAME)
-	{
-		const unique_ptr<UpdatableItem> aged_brie = make_unique<AgedBrie>(item);
-		aged_brie->update();
-	}
-	else if (item.name == BACKSTAGE_NAME)
-	{
-		const unique_ptr<UpdatableItem>  backstage_passes = make_unique<BackstagePasses> (item);
-		backstage_passes->update();
-	}
-	else
-	{
-		const unique_ptr<UpdatableItem>  normal_item = make_unique<NormalItem> (item);
-		normal_item->update();
-	}
+	auto updatableItem = CreateUpdatableItem (item);
+	updatableItem->update ();
 }
 
 
