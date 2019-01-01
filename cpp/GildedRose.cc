@@ -141,7 +141,6 @@ void GildedRose::updateQuality()
 {
 	for (auto& item : items)
 	{
-		auto updatableItem = CreateUpdatableItem (item);
-		updatableItem->update ();
+		CreateUpdatableItem (item)->update ();
 	}
 }
