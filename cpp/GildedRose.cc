@@ -36,6 +36,14 @@ void GildedRose::updateItemQuality (Item& item) const
 		{
 			item.quality += 1;
 		}
+
+		if (isSaleDatePassed (item))
+		{
+			if (item.quality < QUALITY_UPPER_BOUND)
+			{
+				item.quality += 1;
+			}
+		}
 	}
 	else if (item.name == BACKSTAGE_NAME)
 	{
@@ -59,30 +67,6 @@ void GildedRose::updateItemQuality (Item& item) const
 				}
 			}
 		}
-	}
-	else if (item.name == SULFURAS_NAME)
-	{
-	}
-	else
-	{
-		if (item.quality > QUALITY_LOWER_BOUND)
-		{
-			item.quality -= 1;
-		}
-	}
-
-	if (item.name == AGED_BRIE_NAME)
-	{
-		if (isSaleDatePassed (item))
-		{
-			if (item.quality < QUALITY_UPPER_BOUND)
-			{
-				item.quality += 1;
-			}
-		}
-	}
-	else if (item.name == BACKSTAGE_NAME)
-	{
 		if (isSaleDatePassed (item))
 		{
 			item.quality -= item.quality;
@@ -93,7 +77,11 @@ void GildedRose::updateItemQuality (Item& item) const
 	}
 	else
 	{
-		if (isSaleDatePassed(item))
+		if (item.quality > QUALITY_LOWER_BOUND)
+		{
+			item.quality -= 1;
+		}
+		if (isSaleDatePassed (item))
 		{
 			if (item.quality > QUALITY_LOWER_BOUND)
 			{
