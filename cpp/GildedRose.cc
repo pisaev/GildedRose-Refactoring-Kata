@@ -31,6 +31,13 @@ class NormalItem :public UpdatableItem
 public:
 	NormalItem (Item& item) : item_{ item } {}
 
+	auto update () const -> void override
+	{
+		Age ();
+		updateQuality ();
+	}
+
+protected:
 	virtual int NormalQualityAdjustment () const
 	{
 		return GildedRose::NORMAL_QUALITY_ADJUSTMENT;
@@ -52,13 +59,6 @@ public:
 		AdjustQuality (qualityAdjustment);
 	}
 
-	auto update () const -> void override
-	{
-		Age ();
-		updateQuality ();
-	}
-
-protected:
 	void Age () const
 	{
 		item_.sellIn -= 1;
@@ -79,7 +79,7 @@ class AgedBrie :public NormalItem
 {
 public:
 	explicit AgedBrie(Item& item): NormalItem{item}{}
-
+protected:
 	int NormalQualityAdjustment() const override
 	{
 		return GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
@@ -95,7 +95,7 @@ class BackstagePasses :public NormalItem
 {
 public:
 	explicit BackstagePasses(Item& item): NormalItem{item}{}
-
+protected:
 	int NormalQualityAdjustment () const override
 	{
 		int qualityAdjustment = 1;
@@ -122,7 +122,7 @@ unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
 {
 	if (item.name == GildedRose::SULFURAS_NAME)
 	{
-		return make_unique<Surfuras > ();
+		return make_unique<Surfuras> ();
 	}
 	if (item.name == GildedRose::AGED_BRIE_NAME)
 	{
