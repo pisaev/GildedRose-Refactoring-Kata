@@ -53,9 +53,8 @@ class AgedBrie :public UpdatableItem
 public:
 	explicit AgedBrie(Item& item): UpdatableItem{item}{}
 
-	auto update() const -> void override
+	void updateQuality() const
 	{
-		Age();
 		const auto qualityAdjustment = 1;
 		AdjustQuality(qualityAdjustment);
 
@@ -67,6 +66,12 @@ public:
 			}
 		}
 	}
+
+	auto update() const -> void override
+	{
+		Age();
+		updateQuality();
+	}
 };
 
 class BackstagePasses :public UpdatableItem
@@ -74,10 +79,8 @@ class BackstagePasses :public UpdatableItem
 public:
 	explicit BackstagePasses(Item& item): UpdatableItem{item}{}
 
-	auto update() const -> void	override
+	void updateQuality() const
 	{
-		Age ();
-
 		AdjustQuality (1);
 
 		if (item_.sellIn < 10)
@@ -93,7 +96,13 @@ public:
 		{
 			AdjustQuality (-item_.quality);
 		}
+	}
 
+	auto update() const -> void	override
+	{
+		Age ();
+
+		updateQuality();
 	}
 };
 
@@ -102,9 +111,8 @@ class NormalItem :public UpdatableItem
 public:
 	NormalItem(Item& item): UpdatableItem{item}{}
 
-	auto update () const -> void override
+	void updateQuality() const
 	{
-		Age ();
 		if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
 		{
 			AdjustQuality (-1);
@@ -113,6 +121,12 @@ public:
 		{
 			AdjustQuality (-1);
 		}
+	}
+
+	auto update () const -> void override
+	{
+		Age ();
+		updateQuality();
 	}
 };
 
