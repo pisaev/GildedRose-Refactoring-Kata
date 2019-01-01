@@ -14,12 +14,9 @@ const int GildedRose::QUALITY_LOWER_BOUND = 0;
 const int GildedRose::QUALITY_UPPER_BOUND = 50;
 
 
-GildedRose::GildedRose(vector<Item>& items) : items(items){}
-
 class UpdatableItem
 {
 public:
-	explicit UpdatableItem() {}
 	virtual auto update () const -> void {};
 	virtual ~UpdatableItem() = default;
 };
@@ -134,6 +131,8 @@ unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
 	}
 	return make_unique<NormalItem> (item);
 }
+
+GildedRose::GildedRose (vector<Item>& items) : items (items) {}
 
 void GildedRose::updateQuality()
 {
