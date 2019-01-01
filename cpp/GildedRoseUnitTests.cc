@@ -24,6 +24,8 @@ struct GildedRoseTest : testing::Test
 	const string REGULAR_ITEM2_NAME = "Boo";
 	const int AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT = -GildedRose::NORMAL_QUALITY_ADJUSTMENT;
 	const int AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT = GildedRose::TWICE_AS_FAST * AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
+	const int CONJURED_NORMAL_QUALITY_ADJUSTMENT = GildedRose::TWICE_AS_FAST * GildedRose::NORMAL_QUALITY_ADJUSTMENT;
+	const int CONJURED_PASS_SALE_DATE_QUALITY_ADJUSTMENT = GildedRose::TWICE_AS_FAST * CONJURED_NORMAL_QUALITY_ADJUSTMENT;
 
 	auto matchItemByName(string name_to_look) const {
 		return[name_to_look = move (name_to_look)] (auto& item) {
@@ -128,6 +130,28 @@ TEST_F (GildedRoseTest, Aged_Brie_increases_in_Quality_once_the_sell_by_date_has
 	EXPECT_EQ (AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
+TEST_F (GildedRoseTest, Conjured_items_degrade_in_Quality_twice_as_fast_as_normal_items)
+{
+	const int SOME_QUALITY = 4;
+	const int SOME_SELL_IN = 7;
+	givenItemWithNameSellInAndQuality ({ GildedRose::CONJURED,SOME_SELL_IN,SOME_QUALITY });
+
+	whenWeUpdateTheQuality ();
+
+	EXPECT_EQ (CONJURED_NORMAL_QUALITY_ADJUSTMENT, find_item_by (GildedRose::CONJURED).quality - SOME_QUALITY);
+}
+
+TEST_F (GildedRoseTest, CONJURED_increases_in_Quality_once_the_sell_by_date_has_passed_twice_as_fast)
+{
+	const int SELL_IN_BEFORE_PASSING = 0;
+	const int SOME_QUALITY = 6;
+	givenItemWithNameSellInAndQuality ({ GildedRose::CONJURED,SELL_IN_BEFORE_PASSING,SOME_QUALITY });
+
+	whenWeUpdateTheQuality ();
+
+	EXPECT_EQ (CONJURED_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::CONJURED).quality - SOME_QUALITY);
+}
+
 TEST_F (GildedRoseTest, Aged_Brie_the_quality_of_an_item_is_never_more_than_50)
 {
 	const int SOME_SELL_IN = 7;
@@ -228,3 +252,4 @@ INSTANTIATE_TEST_CASE_P (Backstage_Passes_Quality_drops_to_0_after_the_concert, 
 	Backstage_Passes{-1, 4, -4},
 	Backstage_Passes{-3, 5, -5},
 	}));
+

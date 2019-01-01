@@ -1,6 +1,7 @@
 #include	"GildedRose.h"
 #include <memory>
 
+const string GildedRose::CONJURED = "Conjured";
 const string GildedRose::AGED_BRIE_NAME = "Aged Brie";
 const string GildedRose::SULFURAS_NAME = "Sulfuras, Hand of Ragnaros";
 const string GildedRose::BACKSTAGE_NAME = "Backstage passes to a TAFKAL80ETC concert";
@@ -77,7 +78,17 @@ private:
 	}
 };
 
+class Conjured : public NormalItem
+{
+public:
+	explicit Conjured(Item& item): NormalItem{item}{}
 
+protected:
+	int NormalQualityAdjustment() const override
+	{
+		return GildedRose::TWICE_AS_FAST * NormalItem::NormalQualityAdjustment ();
+	}
+};
 
 class AgedBrie :public NormalItem
 {
@@ -130,6 +141,11 @@ unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
 	{
 		return make_unique<BackstagePasses> (item);
 	}
+	if (item.name == GildedRose::CONJURED)
+	{
+		return make_unique<Conjured> (item);
+	}
+
 	return make_unique<NormalItem> (item);
 }
 

@@ -19,9 +19,10 @@ class GildedRose
 {
 public:
     vector<Item> & items;
-    GildedRose(vector<Item> & items);
+	GildedRose(vector<Item> & items);
 	void updateQuality();
 
+	static const string CONJURED;
 	static const string AGED_BRIE_NAME;
 	static const string SULFURAS_NAME;
 	static const string BACKSTAGE_NAME;
