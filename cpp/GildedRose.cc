@@ -137,18 +137,11 @@ unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
 	return make_unique<NormalItem> (item);
 }
 
-
-void GildedRose::updateItemQuality (Item& item) const
-{
-	auto updatableItem = CreateUpdatableItem (item);
-	updatableItem->update ();
-}
-
-
 void GildedRose::updateQuality()
 {
 	for (auto& item : items)
 	{
-		updateItemQuality(item);
+		auto updatableItem = CreateUpdatableItem (item);
+		updatableItem->update ();
 	}
 }
