@@ -19,39 +19,21 @@ GildedRose::GildedRose(vector<Item>& items) : items(items){}
 class UpdatableItem
 {
 public:
-	explicit UpdatableItem(Item& item): item_{item}{}
+	explicit UpdatableItem() {}
 	virtual auto update () const -> void = 0;
 	virtual ~UpdatableItem() = default;
-
-protected:
-	void Age () const
-	{
-		item_.sellIn -= 1;
-	}
-
-	void AdjustQuality (int qualityAdjustment) const
-	{
-		item_.quality += qualityAdjustment;
-		
-		if (item_.quality > GildedRose::QUALITY_UPPER_BOUND) item_.quality = GildedRose::QUALITY_UPPER_BOUND;
-		if (item_.quality < GildedRose::QUALITY_LOWER_BOUND) item_.quality = GildedRose::QUALITY_LOWER_BOUND;
-	}
-
-	Item& item_;
 };
 
 class Surfuras:public UpdatableItem
 {
 public:
-	explicit Surfuras(Item& item): UpdatableItem{item}{}
-
 	auto update() const -> void override {}
 };
 
 class NormalItem :public UpdatableItem
 {
 public:
-	NormalItem (Item& item) : UpdatableItem{ item } {}
+	NormalItem (Item& item) : item_{ item } {}
 
 	virtual int NormalQualityAdjustment () const
 	{
@@ -79,6 +61,22 @@ public:
 		Age ();
 		updateQuality ();
 	}
+
+protected:
+	void Age () const
+	{
+		item_.sellIn -= 1;
+	}
+
+	void AdjustQuality (int qualityAdjustment) const
+	{
+		item_.quality += qualityAdjustment;
+
+		if (item_.quality > GildedRose::QUALITY_UPPER_BOUND) item_.quality = GildedRose::QUALITY_UPPER_BOUND;
+		if (item_.quality < GildedRose::QUALITY_LOWER_BOUND) item_.quality = GildedRose::QUALITY_LOWER_BOUND;
+	}
+
+	Item& item_;
 };
 
 class AgedBrie :public NormalItem
@@ -124,12 +122,11 @@ public:
 	}
 };
 
-
 unique_ptr<UpdatableItem> CreateUpdatableItem(Item& item)
 {
 	if (item.name == GildedRose::SULFURAS_NAME)
 	{
-		return make_unique<Surfuras > (item);
+		return make_unique<Surfuras > ();
 	}
 	if (item.name == GildedRose::AGED_BRIE_NAME)
 	{
