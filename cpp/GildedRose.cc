@@ -66,23 +66,29 @@ void GildedRose::updateItemQuality (Item& item) const
 		item.sellIn -= 1;
 	}
 
-	if (item.sellIn < 0)
+	if (item.name == AGED_BRIE_NAME)
 	{
-		if (item.name == AGED_BRIE_NAME)
+		if (item.sellIn < 0)
 		{
 			if (item.quality < QUALITY_UPPER_BOUND)
 			{
 				item.quality += 1;
 			}
 		}
-		else if (item.name == BACKSTAGE_NAME)
+	}
+	else if (item.name == BACKSTAGE_NAME)
+	{
+		if (item.sellIn < 0)
 		{
 			item.quality -= item.quality;
 		}
-		else if (item.name == SULFURAS_NAME)
-		{
-		}
-		else
+	}
+	else if (item.name == SULFURAS_NAME)
+	{
+	}
+	else
+	{
+		if (item.sellIn < 0)
 		{
 			if (item.quality > QUALITY_LOWER_BOUND)
 			{
