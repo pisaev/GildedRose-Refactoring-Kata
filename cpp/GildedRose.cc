@@ -19,20 +19,20 @@ void GildedRose::updateItemQuality (Item& item) const
 {
 	if (item.name == AGED_BRIE_NAME)
 	{
-		if (item.quality < 50)
+		if (item.quality < QUALITY_UPPER_BOUND)
 		{
 			item.quality += 1;
 		}
 	}
 	else if (item.name == BACKSTAGE_NAME)
 	{
-		if (item.quality < 50)
+		if (item.quality < QUALITY_UPPER_BOUND)
 		{
 			item.quality += 1;
 
 			if (item.sellIn < 11)
 			{
-				if (item.quality < 50)
+				if (item.quality < QUALITY_UPPER_BOUND)
 				{
 					item.quality += 1;
 				}
@@ -40,7 +40,7 @@ void GildedRose::updateItemQuality (Item& item) const
 
 			if (item.sellIn < 6)
 			{
-				if (item.quality < 50)
+				if (item.quality < QUALITY_UPPER_BOUND)
 				{
 					item.quality += 1;
 				}
@@ -70,7 +70,7 @@ void GildedRose::updateItemQuality (Item& item) const
 	{
 		if (item.name == AGED_BRIE_NAME)
 		{
-			if (item.quality < 50)
+			if (item.quality < QUALITY_UPPER_BOUND)
 			{
 				item.quality += 1;
 			}
