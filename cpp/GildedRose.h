@@ -32,7 +32,5 @@ public:
 	static const int AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 	static const int QUALITY_LOWER_BOUND;
 	static const int QUALITY_UPPER_BOUND;
-private:
-	void updateItemQuality (Item& item) const;
 };
 
