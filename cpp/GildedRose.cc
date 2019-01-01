@@ -1,33 +1,35 @@
 #include "GildedRose.h"
 
-GildedRose::GildedRose(vector<Item>& items) : items(items)
-{
-}
+GildedRose::GildedRose(vector<Item>& items) : items(items){}
 
-void GildedRose::updateItemQuality(Item& item) const
+void GildedRose::updateItemQuality (Item& item) const
 {
-	if (item.name == "Aged Brie" || item.name == "Backstage passes to a TAFKAL80ETC concert")
+	if (item.name == "Aged Brie")
+	{
+		if (item.quality < 50)
+		{
+			item.quality += 1;
+		}
+	}
+	else if (item.name == "Backstage passes to a TAFKAL80ETC concert")
 	{
 		if (item.quality < 50)
 		{
 			item.quality += 1;
 
-			if (item.name == "Backstage passes to a TAFKAL80ETC concert")
+			if (item.sellIn < 11)
 			{
-				if (item.sellIn < 11)
+				if (item.quality < 50)
 				{
-					if (item.quality < 50)
-					{
-						item.quality += 1;
-					}
+					item.quality += 1;
 				}
+			}
 
-				if (item.sellIn < 6)
+			if (item.sellIn < 6)
+			{
+				if (item.quality < 50)
 				{
-					if (item.quality < 50)
-					{
-						item.quality += 1;
-					}
+					item.quality += 1;
 				}
 			}
 		}
@@ -76,6 +78,7 @@ void GildedRose::updateItemQuality(Item& item) const
 		}
 	}
 }
+
 
 void GildedRose::updateQuality()
 {
