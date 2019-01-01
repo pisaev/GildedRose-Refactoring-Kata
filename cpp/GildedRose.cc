@@ -34,18 +34,21 @@ void GildedRose::updateItemQuality (Item& item) const
 			}
 		}
 	}
+	else if (item.name == "Sulfuras, Hand of Ragnaros")
+	{
+	}
 	else
 	{
 		if (item.quality > 0)
 		{
-			if (item.name != "Sulfuras, Hand of Ragnaros")
-			{
-				item.quality -= 1;
-			}
+			item.quality -= 1;
 		}
 	}
 
-	if (item.name != "Sulfuras, Hand of Ragnaros")
+	if (item.name == "Sulfuras, Hand of Ragnaros")
+	{
+	}
+	else
 	{
 		item.sellIn -= 1;
 	}
@@ -59,21 +62,18 @@ void GildedRose::updateItemQuality (Item& item) const
 				item.quality += 1;
 			}
 		}
+		else if (item.name == "Backstage passes to a TAFKAL80ETC concert")
+		{
+			item.quality -= item.quality;
+		}
+		else if (item.name == "Sulfuras, Hand of Ragnaros")
+		{
+		}
 		else
 		{
-			if (item.name == "Backstage passes to a TAFKAL80ETC concert")
+			if (item.quality > 0)
 			{
-				item.quality -= item.quality;
-			}
-			else
-			{
-				if (item.quality > 0)
-				{
-					if (item.name != "Sulfuras, Hand of Ragnaros")
-					{
-						item.quality -= 1;
-					}
-				}
+				item.quality -= 1;
 			}
 		}
 	}
