@@ -24,11 +24,10 @@ void GildedRose::updateItemQuality (Item& item) const
 {
 	if (item.name == SULFURAS_NAME)
 	{
+		return;
 	}
-	else
-	{
-		item.sellIn -= 1;
-	}
+
+	item.sellIn -= 1;
 
 	if (item.name == AGED_BRIE_NAME)
 	{
@@ -71,9 +70,6 @@ void GildedRose::updateItemQuality (Item& item) const
 		{
 			item.quality -= item.quality;
 		}
-	}
-	else if (item.name == SULFURAS_NAME)
-	{
 	}
 	else
 	{
