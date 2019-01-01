@@ -31,10 +31,10 @@ protected:
 
 	void AdjustQuality (int qualityAdjustment) const
 	{
-		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
-		{
-			item_.quality += qualityAdjustment;
-		}
+		item_.quality += qualityAdjustment;
+		
+		if (item_.quality > GildedRose::QUALITY_UPPER_BOUND) item_.quality = GildedRose::QUALITY_UPPER_BOUND;
+		if (item_.quality < GildedRose::QUALITY_LOWER_BOUND) item_.quality = GildedRose::QUALITY_LOWER_BOUND;
 	}
 
 	Item& item_;
