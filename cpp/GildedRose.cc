@@ -15,14 +15,19 @@ const int GildedRose::QUALITY_UPPER_BOUND = 50;
 
 GildedRose::GildedRose(vector<Item>& items) : items(items){}
 
-class Surfuras
+class UpdatableItem
+{
+	
+};
+
+class Surfuras:public UpdatableItem
 {
 public:
 	explicit Surfuras(const Item& item) {};
 	auto update() const -> void{	}
 };
 
-class AgedBrie
+class AgedBrie :public UpdatableItem
 {
 public:
 	explicit AgedBrie(Item& item): item_{item} {
@@ -48,7 +53,7 @@ public:
 	Item& item_;
 };
 
-class BackstagePasses
+class BackstagePasses :public UpdatableItem
 {
 public:
 	explicit BackstagePasses(Item& item): item_{item} {}
@@ -86,7 +91,7 @@ public:
 	Item& item_;
 };
 
-class NormalItem
+class NormalItem :public UpdatableItem
 {
 public:
 	NormalItem(Item& item): item_{item} {}
