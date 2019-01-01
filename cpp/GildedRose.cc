@@ -53,12 +53,12 @@ class NormalItem :public UpdatableItem
 public:
 	NormalItem (Item& item) : UpdatableItem{ item } {}
 
-	virtual const int NormalQualityAdjustment () const
+	virtual int NormalQualityAdjustment () const
 	{
 		return GildedRose::NORMAL_QUALITY_ADJUSTMENT;
 	}
 
-	virtual const int PassDateQualityAdjustment () const
+	virtual int PassDateQualityAdjustment () const
 	{
 		return GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 	}
@@ -86,23 +86,23 @@ class AgedBrie :public NormalItem
 public:
 	explicit AgedBrie(Item& item): NormalItem{item}{}
 
-	const int NormalQualityAdjustment() const override
+	int NormalQualityAdjustment() const override
 	{
 		return GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
 	}
 
-	const int PassDateQualityAdjustment() const override
+	int PassDateQualityAdjustment() const override
 	{
 		return GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 	}
 };
 
-class BackstagePasses :public UpdatableItem
+class BackstagePasses :public NormalItem
 {
 public:
-	explicit BackstagePasses(Item& item): UpdatableItem{item}{}
+	explicit BackstagePasses(Item& item): NormalItem{item}{}
 
-	int NormalQualityAdjustment () const
+	int NormalQualityAdjustment () const override
 	{
 		int qualityAdjustment = 1;
 
@@ -118,28 +118,9 @@ public:
 		return qualityAdjustment;
 	}
 
-	int PassDateQualityAdjustment() const
+	int PassDateQualityAdjustment() const override
 	{
 		return -item_.quality;
-	}
-
-	void updateQuality() const
-	{
-		int qualityAdjustment = NormalQualityAdjustment();
-
-		if (item_.sellIn < 0)
-		{
-			qualityAdjustment = PassDateQualityAdjustment();
-		}
-
-		AdjustQuality (qualityAdjustment);
-	}
-
-	auto update() const -> void	override
-	{
-		Age ();
-
-		updateQuality();
 	}
 };
 
