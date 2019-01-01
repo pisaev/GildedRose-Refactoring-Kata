@@ -55,16 +55,16 @@ public:
 
 	void updateQuality() const
 	{
-		const auto qualityAdjustment = 1;
-		AdjustQuality(qualityAdjustment);
+		int qualityAdjustment = GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
 
 		if (item_.sellIn < 0)
 		{
 			if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
 			{
-				AdjustQuality (qualityAdjustment);
+				qualityAdjustment = GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 			}
 		}
+		AdjustQuality(qualityAdjustment);
 	}
 
 	auto update() const -> void override
