@@ -79,8 +79,8 @@ void GildedRose::updateItemQuality(Item& item) const
 
 void GildedRose::updateQuality()
 {
-	for (int i = 0; i < items.size(); i++)
+	for (auto& item : items)
 	{
-		updateItemQuality(items[i]);
+		updateItemQuality(item);
 	}
 }
