@@ -20,6 +20,7 @@ class UpdatableItem
 public:
 	explicit UpdatableItem(Item& item): item_{item}{}
 	virtual auto update () const -> void = 0;
+	virtual ~UpdatableItem() = default;
 
 protected:
 	Item& item_;
