@@ -17,20 +17,28 @@ GildedRose::GildedRose(vector<Item>& items) : items(items){}
 
 class UpdatableItem
 {
-	
+public:
+	explicit UpdatableItem(Item& item): item_{item}{}
+
+protected:
+	Item& item_;
+
 };
 
 class Surfuras:public UpdatableItem
 {
 public:
-	explicit Surfuras(const Item& item) {};
+	explicit Surfuras(Item& item): UpdatableItem{item}
+	{
+	} ;
 	auto update() const -> void{	}
 };
 
 class AgedBrie :public UpdatableItem
 {
 public:
-	explicit AgedBrie(Item& item): item_{item} {
+	explicit AgedBrie(Item& item): UpdatableItem{item}
+	{
 	}
 
 	auto update() const -> void
@@ -49,14 +57,14 @@ public:
 			}
 		}
 	}
-
-	Item& item_;
 };
 
 class BackstagePasses :public UpdatableItem
 {
 public:
-	explicit BackstagePasses(Item& item): item_{item} {}
+	explicit BackstagePasses(Item& item): UpdatableItem{item}
+	{
+	}
 
 	auto update() const -> void
 	{
@@ -87,14 +95,14 @@ public:
 		}
 
 	}
-
-	Item& item_;
 };
 
 class NormalItem :public UpdatableItem
 {
 public:
-	NormalItem(Item& item): item_{item} {}
+	NormalItem(Item& item): UpdatableItem{item}
+	{
+	}
 
 	auto update () const -> void
 	{
@@ -111,9 +119,6 @@ public:
 			}
 		}
 	}
-
-private:
-	Item& item_;
 };
 
 void GildedRose::updateItemQuality (Item& item) const
