@@ -24,9 +24,7 @@ public:
 	virtual ~UpdatableItem() = default;
 };
 
-class Surfuras:public UpdatableItem
-{
-};
+using Surfuras = UpdatableItem;
 
 class NormalItem :public UpdatableItem
 {
