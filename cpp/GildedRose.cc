@@ -63,7 +63,7 @@ public:
 		{
 			if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
 			{
-				item_.quality += 1;
+				AdjustQuality (qualityAdjustment);
 			}
 		}
 	}
@@ -79,22 +79,16 @@ public:
 		Age ();
 		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
 		{
-			item_.quality += 1;
+			AdjustQuality (1);
 
 			if (item_.sellIn < 10)
 			{
-				if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
-				{
-					item_.quality += 1;
-				}
+				AdjustQuality (1);
 			}
 
 			if (item_.sellIn < 5)
 			{
-				if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
-				{
-					item_.quality += 1;
-				}
+				AdjustQuality (1);
 			}
 		}
 		if (item_.sellIn < 0)
