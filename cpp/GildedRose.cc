@@ -1,6 +1,8 @@
 #include "GildedRose.h"
 
-GildedRose::GildedRose(vector<Item> & items) : items(items){}
+GildedRose::GildedRose(vector<Item>& items) : items(items)
+{
+}
 
 void GildedRose::updateItemQuality(Item& item) const
 {
@@ -8,7 +10,7 @@ void GildedRose::updateItemQuality(Item& item) const
 	{
 		if (item.quality < 50)
 		{
-			item.quality = item.quality + 1;
+			item.quality += 1;
 
 			if (item.name == "Backstage passes to a TAFKAL80ETC concert")
 			{
@@ -16,7 +18,7 @@ void GildedRose::updateItemQuality(Item& item) const
 				{
 					if (item.quality < 50)
 					{
-						item.quality = item.quality + 1;
+						item.quality += 1;
 					}
 				}
 
@@ -24,7 +26,7 @@ void GildedRose::updateItemQuality(Item& item) const
 				{
 					if (item.quality < 50)
 					{
-						item.quality = item.quality + 1;
+						item.quality += 1;
 					}
 				}
 			}
@@ -36,14 +38,14 @@ void GildedRose::updateItemQuality(Item& item) const
 		{
 			if (item.name != "Sulfuras, Hand of Ragnaros")
 			{
-				item.quality = item.quality - 1;
+				item.quality -= 1;
 			}
 		}
 	}
 
 	if (item.name != "Sulfuras, Hand of Ragnaros")
 	{
-		item.sellIn = item.sellIn - 1;
+		item.sellIn -= 1;
 	}
 
 	if (item.sellIn < 0)
@@ -52,14 +54,14 @@ void GildedRose::updateItemQuality(Item& item) const
 		{
 			if (item.quality < 50)
 			{
-				item.quality = item.quality + 1;
+				item.quality += 1;
 			}
 		}
 		else
 		{
 			if (item.name == "Backstage passes to a TAFKAL80ETC concert")
 			{
-				item.quality = item.quality - item.quality;
+				item.quality -= item.quality;
 			}
 			else
 			{
@@ -67,7 +69,7 @@ void GildedRose::updateItemQuality(Item& item) const
 				{
 					if (item.name != "Sulfuras, Hand of Ragnaros")
 					{
-						item.quality = item.quality - 1;
+						item.quality -= 1;
 					}
 				}
 			}
@@ -75,10 +77,10 @@ void GildedRose::updateItemQuality(Item& item) const
 	}
 }
 
-void GildedRose::updateQuality() 
+void GildedRose::updateQuality()
 {
-    for (int i = 0; i < items.size(); i++)
-    {
+	for (int i = 0; i < items.size(); i++)
+	{
 		updateItemQuality(items[i]);
-    }
+	}
 }
