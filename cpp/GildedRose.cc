@@ -1,4 +1,4 @@
-#include "GildedRose.h"
+#include	"GildedRose.h"
 
 const string GildedRose::AGED_BRIE_NAME = "Aged Brie";
 const string GildedRose::SULFURAS_NAME = "Sulfuras, Hand of Ragnaros";
@@ -52,7 +52,7 @@ void GildedRose::updateItemQuality (Item& item) const
 	}
 	else
 	{
-		if (item.quality > 0)
+		if (item.quality > QUALITY_LOWER_BOUND)
 		{
 			item.quality -= 1;
 		}
@@ -84,7 +84,7 @@ void GildedRose::updateItemQuality (Item& item) const
 		}
 		else
 		{
-			if (item.quality > 0)
+			if (item.quality > QUALITY_LOWER_BOUND)
 			{
 				item.quality -= 1;
 			}
