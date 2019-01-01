@@ -22,6 +22,14 @@ bool GildedRose::isSaleDatePassed(Item& item) const
 
 void GildedRose::updateItemQuality (Item& item) const
 {
+	if (item.name == SULFURAS_NAME)
+	{
+	}
+	else
+	{
+		item.sellIn -= 1;
+	}
+
 	if (item.name == AGED_BRIE_NAME)
 	{
 		if (item.quality < QUALITY_UPPER_BOUND)
@@ -35,7 +43,7 @@ void GildedRose::updateItemQuality (Item& item) const
 		{
 			item.quality += 1;
 
-			if (item.sellIn < 11)
+			if (item.sellIn < 10)
 			{
 				if (item.quality < QUALITY_UPPER_BOUND)
 				{
@@ -43,7 +51,7 @@ void GildedRose::updateItemQuality (Item& item) const
 				}
 			}
 
-			if (item.sellIn < 6)
+			if (item.sellIn < 5)
 			{
 				if (item.quality < QUALITY_UPPER_BOUND)
 				{
@@ -61,14 +69,6 @@ void GildedRose::updateItemQuality (Item& item) const
 		{
 			item.quality -= 1;
 		}
-	}
-
-	if (item.name == SULFURAS_NAME)
-	{
-	}
-	else
-	{
-		item.sellIn -= 1;
 	}
 
 	if (item.name == AGED_BRIE_NAME)
