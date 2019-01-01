@@ -1,4 +1,5 @@
 #include	"GildedRose.h"
+#include <memory>
 
 const string GildedRose::AGED_BRIE_NAME = "Aged Brie";
 const string GildedRose::SULFURAS_NAME = "Sulfuras, Hand of Ragnaros";
@@ -100,9 +101,7 @@ public:
 class NormalItem :public UpdatableItem
 {
 public:
-	NormalItem(Item& item): UpdatableItem{item}
-	{
-	}
+	NormalItem(Item& item): UpdatableItem{item}{}
 
 	auto update () const -> void override
 	{
@@ -125,23 +124,23 @@ void GildedRose::updateItemQuality (Item& item) const
 {
 	if (item.name == SULFURAS_NAME)
 	{
-		Surfuras surfuras (item);
-		surfuras.update();
+		const unique_ptr<UpdatableItem> surfuras = make_unique<Surfuras >(item);
+		surfuras->update();
 	}
 	else if (item.name == AGED_BRIE_NAME)
 	{
-		AgedBrie aged_brie (item);
-		aged_brie.update();
+		const unique_ptr<UpdatableItem> aged_brie = make_unique<AgedBrie>(item);
+		aged_brie->update();
 	}
 	else if (item.name == BACKSTAGE_NAME)
 	{
-		BackstagePasses backstage_passes (item);
-		backstage_passes.update();
+		const unique_ptr<UpdatableItem>  backstage_passes = make_unique<BackstagePasses> (item);
+		backstage_passes->update();
 	}
 	else
 	{
-		NormalItem normal_item (item);
-		normal_item .update();
+		const unique_ptr<UpdatableItem>  normal_item = make_unique<NormalItem> (item);
+		normal_item->update();
 	}
 }
 
