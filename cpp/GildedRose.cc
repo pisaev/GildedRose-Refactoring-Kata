@@ -81,36 +81,19 @@ public:
 	}
 };
 
-class AgedBrie :public UpdatableItem
+class AgedBrie :public NormalItem
 {
 public:
-	explicit AgedBrie(Item& item): UpdatableItem{item}{}
+	explicit AgedBrie(Item& item): NormalItem{item}{}
 
-	const int NormalQualityAdjustment() const
+	const int NormalQualityAdjustment() const override
 	{
 		return GildedRose::AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT;
 	}
 
-	const int PassDateQualityAdjustment() const
+	const int PassDateQualityAdjustment() const override
 	{
 		return GildedRose::AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT;
-	}
-
-	void updateQuality() const
-	{
-		int qualityAdjustment = NormalQualityAdjustment();
-
-		if (item_.sellIn < 0)
-		{
-			qualityAdjustment = PassDateQualityAdjustment();
-		}
-		AdjustQuality(qualityAdjustment);
-	}
-
-	auto update() const -> void override
-	{
-		Age();
-		updateQuality();
 	}
 };
 
