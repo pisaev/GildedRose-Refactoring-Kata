@@ -29,8 +29,15 @@ protected:
 		item_.sellIn -= 1;
 	}
 
-	Item& item_;
+	void AdjustQuality (int qualityAdjustment) const
+	{
+		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
+		{
+			item_.quality += qualityAdjustment;
+		}
+	}
 
+	Item& item_;
 };
 
 class Surfuras:public UpdatableItem
@@ -49,10 +56,8 @@ public:
 	auto update() const -> void override
 	{
 		Age();
-		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
-		{
-			item_.quality += 1;
-		}
+		const auto qualityAdjustment = 1;
+		AdjustQuality(qualityAdjustment);
 
 		if (item_.sellIn < 0)
 		{
