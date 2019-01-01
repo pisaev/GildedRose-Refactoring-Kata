@@ -50,13 +50,14 @@ protected:
 private:
 	void updateQuality () const
 	{
-		int qualityAdjustment = NormalQualityAdjustment ();
-
 		if (isSaleDatePasses ())
 		{
-			qualityAdjustment = PassDateQualityAdjustment ();
+			AdjustQuality (PassDateQualityAdjustment ());
 		}
-		AdjustQuality (qualityAdjustment);
+		else
+		{
+			AdjustQuality (NormalQualityAdjustment ());
+		}
 	}
 
 	bool isSaleDatePasses () const
@@ -102,18 +103,17 @@ public:
 protected:
 	int NormalQualityAdjustment () const override
 	{
-		int qualityAdjustment = 1;
+		if (item_.sellIn < 5)
+		{
+			return 3;
+		}
 
 		if (item_.sellIn < 10)
 		{
-			qualityAdjustment = 2;
+			return  2;
 		}
 
-		if (item_.sellIn < 5)
-		{
-			qualityAdjustment = 3;
-		}
-		return qualityAdjustment;
+		return 1;
 	}
 
 	int PassDateQualityAdjustment() const override
