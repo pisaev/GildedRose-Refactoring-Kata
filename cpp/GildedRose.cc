@@ -20,23 +20,39 @@ bool GildedRose::isSaleDatePassed(Item& item) const
 	return item.sellIn < 0;
 }
 
-void GildedRose::updateItemQuality (Item& item) const
+void GildedRose::update_Aged_Brie(Item& item) const
 {
-	if (item.name == SULFURAS_NAME)
+	item.sellIn -= 1;
+	if (item.quality < QUALITY_UPPER_BOUND)
 	{
-		return;
+		item.quality += 1;
 	}
 
-	item.sellIn -= 1;
-
-	if (item.name == AGED_BRIE_NAME)
+	if (isSaleDatePassed (item))
 	{
 		if (item.quality < QUALITY_UPPER_BOUND)
 		{
 			item.quality += 1;
 		}
+	}
+}
 
-		if (isSaleDatePassed (item))
+void GildedRose::update_Backstage(Item& item) const
+{
+	item.sellIn -= 1;
+	if (item.quality < QUALITY_UPPER_BOUND)
+	{
+		item.quality += 1;
+
+		if (item.sellIn < 10)
+		{
+			if (item.quality < QUALITY_UPPER_BOUND)
+			{
+				item.quality += 1;
+			}
+		}
+
+		if (item.sellIn < 5)
 		{
 			if (item.quality < QUALITY_UPPER_BOUND)
 			{
@@ -44,46 +60,49 @@ void GildedRose::updateItemQuality (Item& item) const
 			}
 		}
 	}
-	else if (item.name == BACKSTAGE_NAME)
+	if (isSaleDatePassed (item))
 	{
-		if (item.quality < QUALITY_UPPER_BOUND)
-		{
-			item.quality += 1;
-
-			if (item.sellIn < 10)
-			{
-				if (item.quality < QUALITY_UPPER_BOUND)
-				{
-					item.quality += 1;
-				}
-			}
-
-			if (item.sellIn < 5)
-			{
-				if (item.quality < QUALITY_UPPER_BOUND)
-				{
-					item.quality += 1;
-				}
-			}
-		}
-		if (isSaleDatePassed (item))
-		{
-			item.quality -= item.quality;
-		}
+		item.quality -= item.quality;
 	}
-	else
+}
+
+void GildedRose::update_Normal(Item& item) const
+{
+	item.sellIn -= 1;
+	if (item.quality > QUALITY_LOWER_BOUND)
+	{
+		item.quality -= 1;
+	}
+	if (isSaleDatePassed (item))
 	{
 		if (item.quality > QUALITY_LOWER_BOUND)
 		{
 			item.quality -= 1;
 		}
-		if (isSaleDatePassed (item))
-		{
-			if (item.quality > QUALITY_LOWER_BOUND)
-			{
-				item.quality -= 1;
-			}
-		}
+	}
+}
+
+void GildedRose::update_Surfuras(Item& item) const
+{
+}
+
+void GildedRose::updateItemQuality (Item& item) const
+{
+	if (item.name == SULFURAS_NAME)
+	{
+		update_Surfuras(item);
+	}
+	else if (item.name == AGED_BRIE_NAME)
+	{
+		update_Aged_Brie(item);
+	}
+	else if (item.name == BACKSTAGE_NAME)
+	{
+		update_Backstage(item);
+	}
+	else
+	{
+		update_Normal(item);
 	}
 }
 
