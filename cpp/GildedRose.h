@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 class Item
 {
 public:
@@ -21,5 +22,9 @@ public:
 	void updateItemQuality(Item& item) const;
 
 	void updateQuality();
+
+	static const string AGED_BRIE_NAME;
+	static const string SULFURAS_NAME;
+	static const string BACKSTAGE_NAME;
 };
 

@@ -30,9 +30,6 @@ struct GildedRoseTest : testing::Test
 
 	const string REGULAR_ITEM1_NAME = "Foo";
 	const string REGULAR_ITEM2_NAME = "Boo";
-	const string AGED_BRIE_NAME = "Aged Brie";
-	const string SULFURAS_NAME = "Sulfuras, Hand of Ragnaros";
-	const string BACKSTAGE_NAME = "Backstage passes to a TAFKAL80ETC concert";
 
 	auto matchItemByName(string name_to_look) const {
 		return[name_to_look = move (name_to_look)] (auto& item) {
@@ -119,65 +116,65 @@ TEST_F (GildedRoseTest, Aged_Brie_actually_increases_in_Quality_the_older_it_get
 {
 	const int SOME_QUALITY = 4;
 	const int SOME_SELL_IN = 7;
-	givenItemWithNameSellInAndQuality ({ AGED_BRIE_NAME,SOME_SELL_IN,SOME_QUALITY });
+	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SOME_SELL_IN,SOME_QUALITY });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT, find_item_by (AGED_BRIE_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (AGED_BRIE_NORMAL_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_increases_in_Quality_once_the_sell_by_date_has_passed_twice_as_fast)
 {
 	const int SELL_IN_BEFORE_PASSING = 0;
 	const int SOME_QUALITY = 6;
-	givenItemWithNameSellInAndQuality ({ AGED_BRIE_NAME,SELL_IN_BEFORE_PASSING,SOME_QUALITY });
+	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SELL_IN_BEFORE_PASSING,SOME_QUALITY });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (AGED_BRIE_NAME).quality - SOME_QUALITY);
+	EXPECT_EQ (AGED_BRIE_PASS_SALE_DATE_QUALITY_ADJUSTMENT, find_item_by (GildedRose::AGED_BRIE_NAME).quality - SOME_QUALITY);
 }
 
 TEST_F (GildedRoseTest, Aged_Brie_the_quality_of_an_item_is_never_more_than_50)
 {
 	const int SOME_SELL_IN = 7;
-	givenItemWithNameSellInAndQuality ({ AGED_BRIE_NAME,SOME_SELL_IN, QUALITY_UPPER_BOUND });	
+	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SOME_SELL_IN, QUALITY_UPPER_BOUND });
 	
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (QUALITY_UPPER_BOUND, find_item_by (AGED_BRIE_NAME).quality);
+	EXPECT_EQ (QUALITY_UPPER_BOUND, find_item_by (GildedRose::AGED_BRIE_NAME).quality);
 }
 
 TEST_F (GildedRoseTest, the_quality_of_an_item_is_never_more_than_50_after_sale_date_passed_as_well)
 {
 	const int SELL_IN_BEFORE_PASSING = 0;
-	givenItemWithNameSellInAndQuality ({ AGED_BRIE_NAME,SELL_IN_BEFORE_PASSING, QUALITY_UPPER_BOUND });
+	givenItemWithNameSellInAndQuality ({ GildedRose::AGED_BRIE_NAME,SELL_IN_BEFORE_PASSING, QUALITY_UPPER_BOUND });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (QUALITY_UPPER_BOUND, find_item_by (AGED_BRIE_NAME).quality);
+	EXPECT_EQ (QUALITY_UPPER_BOUND, find_item_by (GildedRose::AGED_BRIE_NAME).quality);
 }
 
 TEST_F (GildedRoseTest, Sulfuras_being_a_legendary_item,_never_has_to_be_sold_or_decreases_in_Quality)
 {
 	const int SOME_CURRENT_QUALITY = 30;
 	const int SOME_SELL_IN = 10;
-	givenItemWithNameSellInAndQuality ({ SULFURAS_NAME,SOME_SELL_IN, SOME_CURRENT_QUALITY });
+	givenItemWithNameSellInAndQuality ({ GildedRose::SULFURAS_NAME,SOME_SELL_IN, SOME_CURRENT_QUALITY });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (SOME_CURRENT_QUALITY, find_item_by (SULFURAS_NAME).quality);
-	EXPECT_EQ (SOME_SELL_IN, find_item_by (SULFURAS_NAME).sellIn);
+	EXPECT_EQ (SOME_CURRENT_QUALITY, find_item_by (GildedRose::SULFURAS_NAME).quality);
+	EXPECT_EQ (SOME_SELL_IN, find_item_by (GildedRose::SULFURAS_NAME).sellIn);
 }
 
 TEST_F (GildedRoseTest, Sulfuras_Quality_not_limited_by_upper_bound)
 {
 	const int SOME_LARGE_QUALITY = QUALITY_UPPER_BOUND + 30;
 	const int SOME_SELL_IN = 15;
-	givenItemWithNameSellInAndQuality ({ SULFURAS_NAME,SOME_SELL_IN, SOME_LARGE_QUALITY });
+	givenItemWithNameSellInAndQuality ({ GildedRose::SULFURAS_NAME,SOME_SELL_IN, SOME_LARGE_QUALITY });
 
 	whenWeUpdateTheQuality ();
 
-	EXPECT_EQ (SOME_LARGE_QUALITY, find_item_by (SULFURAS_NAME).quality);
+	EXPECT_EQ (SOME_LARGE_QUALITY, find_item_by (GildedRose::SULFURAS_NAME).quality);
 }
 
 struct Backstage_Passes
@@ -200,11 +197,11 @@ TEST_P (Backstage_Passes_Test, increases_in_Quality)
 {
 	const int SOME_CURRENT_QUALITY = GetParam().current_quality;
 	const int SOME_SELL_IN = GetParam().sellIn;
-	givenItemWithNameSellInAndQuality({ BACKSTAGE_NAME, SOME_SELL_IN, SOME_CURRENT_QUALITY });
+	givenItemWithNameSellInAndQuality({ GildedRose::BACKSTAGE_NAME, SOME_SELL_IN, SOME_CURRENT_QUALITY });
 
 	whenWeUpdateTheQuality();
 
-	EXPECT_EQ (GetParam().expected_quality_adjustment, find_item_by (BACKSTAGE_NAME).quality - SOME_CURRENT_QUALITY);
+	EXPECT_EQ (GetParam().expected_quality_adjustment, find_item_by (GildedRose::BACKSTAGE_NAME).quality - SOME_CURRENT_QUALITY);
 }
 
 INSTANTIATE_TEST_CASE_P (Backstage_Passes_increases_in_Quality_the_older_it_gets, Backstage_Passes_Test, ::testing::ValuesIn({

@@ -1,17 +1,21 @@
 #include "GildedRose.h"
 
+const string GildedRose::AGED_BRIE_NAME = "Aged Brie";
+const string GildedRose::SULFURAS_NAME = "Sulfuras, Hand of Ragnaros";
+const string GildedRose::BACKSTAGE_NAME = "Backstage passes to a TAFKAL80ETC concert";
+
 GildedRose::GildedRose(vector<Item>& items) : items(items){}
 
 void GildedRose::updateItemQuality (Item& item) const
 {
-	if (item.name == "Aged Brie")
+	if (item.name == AGED_BRIE_NAME)
 	{
 		if (item.quality < 50)
 		{
 			item.quality += 1;
 		}
 	}
-	else if (item.name == "Backstage passes to a TAFKAL80ETC concert")
+	else if (item.name == BACKSTAGE_NAME)
 	{
 		if (item.quality < 50)
 		{
@@ -34,7 +38,7 @@ void GildedRose::updateItemQuality (Item& item) const
 			}
 		}
 	}
-	else if (item.name == "Sulfuras, Hand of Ragnaros")
+	else if (item.name == SULFURAS_NAME)
 	{
 	}
 	else
@@ -45,7 +49,7 @@ void GildedRose::updateItemQuality (Item& item) const
 		}
 	}
 
-	if (item.name == "Sulfuras, Hand of Ragnaros")
+	if (item.name == SULFURAS_NAME)
 	{
 	}
 	else
@@ -55,18 +59,18 @@ void GildedRose::updateItemQuality (Item& item) const
 
 	if (item.sellIn < 0)
 	{
-		if (item.name == "Aged Brie")
+		if (item.name == AGED_BRIE_NAME)
 		{
 			if (item.quality < 50)
 			{
 				item.quality += 1;
 			}
 		}
-		else if (item.name == "Backstage passes to a TAFKAL80ETC concert")
+		else if (item.name == BACKSTAGE_NAME)
 		{
 			item.quality -= item.quality;
 		}
-		else if (item.name == "Sulfuras, Hand of Ragnaros")
+		else if (item.name == SULFURAS_NAME)
 		{
 		}
 		else
