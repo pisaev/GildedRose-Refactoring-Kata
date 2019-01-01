@@ -71,7 +71,7 @@ public:
 
 	auto update() const -> void	override
 	{
-		item_.sellIn -= 1;
+		Age ();
 		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
 		{
 			item_.quality += 1;
@@ -107,7 +107,7 @@ public:
 
 	auto update () const -> void override
 	{
-		item_.sellIn -= 1;
+		Age ();
 		if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
 		{
 			item_.quality -= 1;
