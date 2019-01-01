@@ -83,7 +83,7 @@ void GildedRose::updateItemQuality (Item& item) const
 	}
 	else if (item.name == BACKSTAGE_NAME)
 	{
-		if (item.sellIn < 0)
+		if (isSaleDatePassed (item))
 		{
 			item.quality -= item.quality;
 		}
