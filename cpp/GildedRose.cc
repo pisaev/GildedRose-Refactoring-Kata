@@ -82,15 +82,20 @@ void GildedRose::update_Normal(Item& item) const
 	}
 }
 
-void GildedRose::update_Surfuras(Item& item) const
+
+class Surfuras
 {
-}
+public:
+	Surfuras(const Item& item) {};
+	auto update() -> void{	}
+};
 
 void GildedRose::updateItemQuality (Item& item) const
 {
 	if (item.name == SULFURAS_NAME)
 	{
-		update_Surfuras(item);
+		Surfuras surfuras (item);
+		surfuras.update();
 	}
 	else if (item.name == AGED_BRIE_NAME)
 	{
