@@ -81,21 +81,28 @@ public:
 
 	void updateQuality() const
 	{
-		AdjustQuality (1);
-
-		if (item_.sellIn < 10)
+		int qualityAdjustment = [&]()
 		{
-			AdjustQuality (1);
-		}
+			int qualityAdjustment = 1;
 
-		if (item_.sellIn < 5)
-		{
-			AdjustQuality (1);
-		}
+			if (item_.sellIn < 10)
+			{
+				qualityAdjustment = 2;
+			}
+
+			if (item_.sellIn < 5)
+			{
+				qualityAdjustment = 3;
+			}
+			return qualityAdjustment;
+		}();
+
 		if (item_.sellIn < 0)
 		{
-			AdjustQuality (-item_.quality);
+			qualityAdjustment = -item_.quality;
 		}
+
+		AdjustQuality (qualityAdjustment);
 	}
 
 	auto update() const -> void	override
@@ -113,14 +120,13 @@ public:
 
 	void updateQuality() const
 	{
-		if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
-		{
-			AdjustQuality (-1);
-		}
+		int qualityAdjustment = GildedRose::NORMAL_QUALITY_ADJUSTMENT;
+		
 		if (item_.sellIn < 0)
 		{
-			AdjustQuality (-1);
+			qualityAdjustment = GildedRose::PASS_SALE_DATE_QUALITY_ADJUSTMENT;
 		}
+		AdjustQuality (qualityAdjustment);
 	}
 
 	auto update () const -> void override
