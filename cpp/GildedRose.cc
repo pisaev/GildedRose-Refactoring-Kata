@@ -24,6 +24,11 @@ public:
 	virtual ~UpdatableItem() = default;
 
 protected:
+	void Age () const
+	{
+		item_.sellIn -= 1;
+	}
+
 	Item& item_;
 
 };
@@ -31,22 +36,19 @@ protected:
 class Surfuras:public UpdatableItem
 {
 public:
-	explicit Surfuras(Item& item): UpdatableItem{item}
-	{
-	} ;
-	auto update() const -> void override {	}
+	explicit Surfuras(Item& item): UpdatableItem{item}{}
+
+	auto update() const -> void override {}
 };
 
 class AgedBrie :public UpdatableItem
 {
 public:
-	explicit AgedBrie(Item& item): UpdatableItem{item}
-	{
-	}
+	explicit AgedBrie(Item& item): UpdatableItem{item}{}
 
 	auto update() const -> void override
 	{
-		item_.sellIn -= 1;
+		Age();
 		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
 		{
 			item_.quality += 1;
