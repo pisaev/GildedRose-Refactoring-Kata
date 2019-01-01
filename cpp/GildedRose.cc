@@ -19,6 +19,7 @@ class UpdatableItem
 {
 public:
 	explicit UpdatableItem(Item& item): item_{item}{}
+	virtual auto update () const -> void = 0;
 
 protected:
 	Item& item_;
@@ -31,7 +32,7 @@ public:
 	explicit Surfuras(Item& item): UpdatableItem{item}
 	{
 	} ;
-	auto update() const -> void{	}
+	auto update() const -> void override {	}
 };
 
 class AgedBrie :public UpdatableItem
@@ -41,7 +42,7 @@ public:
 	{
 	}
 
-	auto update() const -> void
+	auto update() const -> void override
 	{
 		item_.sellIn -= 1;
 		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
@@ -62,11 +63,9 @@ public:
 class BackstagePasses :public UpdatableItem
 {
 public:
-	explicit BackstagePasses(Item& item): UpdatableItem{item}
-	{
-	}
+	explicit BackstagePasses(Item& item): UpdatableItem{item}{}
 
-	auto update() const -> void
+	auto update() const -> void	override
 	{
 		item_.sellIn -= 1;
 		if (item_.quality < GildedRose::QUALITY_UPPER_BOUND)
@@ -104,7 +103,7 @@ public:
 	{
 	}
 
-	auto update () const -> void
+	auto update () const -> void override
 	{
 		item_.sellIn -= 1;
 		if (item_.quality > GildedRose::QUALITY_LOWER_BOUND)
