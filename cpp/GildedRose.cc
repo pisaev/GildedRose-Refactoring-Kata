@@ -15,6 +15,11 @@ const int GildedRose::QUALITY_UPPER_BOUND = 50;
 
 GildedRose::GildedRose(vector<Item>& items) : items(items){}
 
+bool GildedRose::isSaleDatePassed(Item& item) const
+{
+	return item.sellIn < 0;
+}
+
 void GildedRose::updateItemQuality (Item& item) const
 {
 	if (item.name == AGED_BRIE_NAME)
@@ -68,7 +73,7 @@ void GildedRose::updateItemQuality (Item& item) const
 
 	if (item.name == AGED_BRIE_NAME)
 	{
-		if (item.sellIn < 0)
+		if (isSaleDatePassed (item))
 		{
 			if (item.quality < QUALITY_UPPER_BOUND)
 			{
@@ -88,7 +93,7 @@ void GildedRose::updateItemQuality (Item& item) const
 	}
 	else
 	{
-		if (item.sellIn < 0)
+		if (isSaleDatePassed(item))
 		{
 			if (item.quality > QUALITY_LOWER_BOUND)
 			{
