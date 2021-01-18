@@ -109,6 +109,17 @@ class Normal(UpdatableItem):
         return self.NORMAL_ITEM_UPDATE_QUALITY
 
 
+class Conjured(Normal):
+    def __init__(self, item):
+        super().__init__(item)
+
+    def _afterSellDateUpdate(self):
+        return self.TWICE_AS_FAST*super()._afterSellDateUpdate()
+
+    def _beforeSellDateUpdate(self):
+        return self.TWICE_AS_FAST*super()._beforeSellDateUpdate()
+
+
 class Item:
     def __init__(self, name, sell_in, quality):
         self.name = name
